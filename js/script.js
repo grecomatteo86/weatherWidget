@@ -14,8 +14,9 @@ var app = new Vue (
 
             celsiusDegrees:'&units=metric',
 
-            firstView: null,
-            secondView: null
+            firstView: [],
+            secondView: [],
+            hourlyData: []
         },
         mounted:function(){
             // prima chiamata firstView
@@ -26,8 +27,12 @@ var app = new Vue (
             // seconda chiamata secondView
             axios.get(this.baseUrl + this.minuteGraduality + this.latLonCityLon + this.celsiusDegrees + '&exclude=daily' + this.apiKey)
             .then((response) => {
-                console.log(response.data.hourly);
-                //this.secondView = response.data.hourly.temp;
+                //console.log(response.data.hourly);
+                this.hourlyData = response.data.hourly;
+                this.hourlyData.forEach((item) => {
+                    this.secondView.push(item.temp);
+                    //console.log(this.secondView);
+                });
             })
         }
     }
