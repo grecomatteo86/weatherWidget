@@ -5,7 +5,7 @@ var app = new Vue (
             baseUrl:'http://api.openweathermap.org/data/2.5/',
 
             currentState:'weather?q=',
-            minuteGraduality:'onecall?',
+            forecastWeather:'onecall?',
 
             cityNameLon:'London,uk',
             latLonCityLon:'lat=51.5085&lon=-0.1257',
@@ -25,7 +25,7 @@ var app = new Vue (
                 this.firstView = response.data.name + ' ' + response.data.main.temp;
             });
             // seconda chiamata secondView
-            axios.get(this.baseUrl + this.minuteGraduality + this.latLonCityLon + this.celsiusDegrees + '&exclude=daily' + this.apiKey)
+            axios.get(this.baseUrl + this.forecastWeather + this.latLonCityLon + this.celsiusDegrees + '&exclude=daily' + this.apiKey)
             .then((response) => {
                 //console.log(response.data.hourly);
                 this.hourlyData = response.data.hourly;
@@ -33,7 +33,12 @@ var app = new Vue (
                     this.secondView.push(item.temp);
                     //console.log(this.secondView);
                 });
-            })
+            });
+            // terza chiamata thirdView
+            axios.get(this.baseUrl + this.forecastWeather + this.latLonCityLon + this.celsiusDegrees + this.apiKey)
+            .then((response) => {
+                console.log(response.data.daily);
+            });
         }
     }
 )
